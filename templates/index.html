@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <header>
+        
+        <nav class="navbar">
+            <a href="#" class="logo"><span>V-</span>Doctor <span>C</span>ares.</a>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#doctor">Doctor</a></li>
+                <li><a href="#contact">Book</a></li>
+                <li><button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#adminLoginModal">Admin</button></li>
+            </ul>
+        </nav>
+        <div class="fas fa-bars"></div>
+    </header>
+
+     <!-- Admin Login Modal -->
+     <div class="modal fade" id="adminLoginModal" tabindex="-1" role="dialog" aria-labelledby="adminLoginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="adminLoginModalLabel">Admin Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="adminLoginForm">
+                        <div class="form-group">
+                            <label for="adminId">ID</label>
+                            <input type="text" class="form-control" id="adminId" required placeholder="id is admin">
+                        </div>
+                        <div class="form-group">
+                            <label for="adminPassword">Password</label>
+                            <input type="password" class="form-control" id="adminPassword" required placeholder="password is admin">
+                        </div>
+                        <button type="submit" class="btn btn-login btn-lg">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="home" class="home">
+        <div class="row">
+            <div class="images">
+                <img src="{{ url_for('static', filename='assets/home.png') }}" alt="">
+            </div>
+            <div class="content">
+                <h1><span>Stay</span> Safe, <span>Stay</span> Healthy.</h1>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, accusantium!</p>
+                <a href="#"><button class="button">Read More</button></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <h1 class="heading">About our Facility</h1>
+        <h1 class="title">Learn and explore our facility</h1>
+        <div class="box-container">
+            <div class="box">
+                <div class="images">
+                    <img src="{{ url_for('static', filename='assets/about-1.png') }}" alt="">
+                </div>
+                <div class="content">
+                    <h3>ambulance services</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi consequuntur, repellendus aliquid alias unde quibusdam illo itaque quo tempora voluptates.</p>
+                    <a href="#"><button class="button">Learn more</button></a>
+                </div>
+            </div>
+            <div class="box">
+                <div class="images">
+                    <img src="{{ url_for('static', filename='assets/about-2.png') }}" alt="">
+                </div>
+                <div class="content">
+                    <h3>Emergency rooms</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi consequuntur, repellendus aliquid alias unde quibusdam illo itaque quo tempora voluptates.</p>
+                    <a href="#"><button class="button">Learn more</button></a>
+                </div>
+            </div>
+            <div class="box">
+                <div class="images">
+                    <img src="{{ url_for('static', filename='assets/about-3.png') }}" alt="">
+                </div>
+                <div class="content">
+                    <h3>free check-ups</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi consequuntur, repellendus aliquid alias unde quibusdam illo itaque quo tempora voluptates.</p>
+                    <a href="#"><button class="button">Learn more</button></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="doctor" class="card">
+        <div class="container">
+            <h1 class="heading">doctors</h1>
+            <h3 class="title">our professional doctors</h3>
+            <div class="box-container">
+                {% for doctor in doctors %}
+                <div class="box">
+                    <img src="{{ doctor.photo }}" alt="{{ doctor.name }}">
+                    <div class="content">
+                        <a href="#">
+                            <h2>{{ doctor.name }}</h2>
+                        </a>
+                        <p>{{ doctor.designation }}</p>
+                        <div class="icons">
+                            <a href="#" class="fab fa-facebook-f"></a>
+                            <a href="#" class="fab fa-twitter"></a>
+                            <a href="#" class="fab fa-instagram"></a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h1 class="heading">book Appointment</h1>
+        <h3 class="title">you can book Appointment any times,</h3>
+        <div class="row">
+            <div class="images">
+                <img src="{{ url_for('static', filename='assets/form.png') }}" alt="">
+            </div>
+            <div class="form-container">
+                <form method="POST" action="/book_appointment">
+                    <input type="text" name="name" placeholder="full name" required>
+                    <input type="email" name="email" placeholder="enter your email" required>
+                    <input type="number" name="phone" placeholder="phone number" required>
+                    <textarea name="description" placeholder="Desc" cols="30" rows="10" required></textarea>
+                    <input type="submit" value="send">
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="footer">
+        <div class="box">
+            <h2 class="logo"><span>D</span>octors <span>C</span>ares</h2>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio, cupiditate accusantium! Itaque, blanditiis! Temporibus libero asperiores consectetur non! Natus, nesciunt.</p>
+        </div>
+        <div class="box">
+            <h2 class="logo"><span>s</span>hare</h2>
+            <a href="#">facebook</a>
+            <a href="#">twitter</a>
+            <a href="#">instagram</a>
+            <a href="#">pinterest</a>
+        </div>
+        <div class="box">
+            <h2 class="logo"><span>L</span>inks</h2>
+            <a href="#home">home</a>
+            <a href="#about">about</a>
+            <a href="#doctor">doctor</a>
+            <a href="#contact">Book Appointment</a>
+        </div>
+        <div class="box">
+            <a href="https://github.com/vaibhavp7744" target="_blank" rel="noopener noreferrer">
+                <img src=static\assets\github.png alt="GitHub" style= width:70px,  height="70px">
+              </a>
+              <h5 style="color: white;">visit my github</h5>
+        </div>
+        <h1 class="credit">created by <span>Vaibhav Patil</span> all rights reserved!</h1>
+    </section>
+
+    <!-- script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="static\js\script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
